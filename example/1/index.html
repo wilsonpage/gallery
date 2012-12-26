@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>gallery.js | Example 1</title>
+  <script src="../../lib/gallery.js"></script>
+  <style>
+
+  	html,
+  	body {
+  		width: 100%;
+  		height: 100%;
+  		margin: 0;
+  		padding: 0;
+  	}
+
+  	.gallery {
+  		position: relative;
+  		width: 100%;
+  		height: 100%;
+  	}
+
+  	.gallery-pane {
+  		position: absolute;
+  		left: 0;
+  		top: 20px;
+  		width: 100%;
+  		height: 100%;
+  	}
+
+  </style>
+</head>
+<body>
+	<button data-id="one">One</button>
+	<button data-id="two">Two</button>
+	<button data-id="three">Three</button>
+	<button data-id="four">Four</button>
+	<button data-id="five">Five</button>
+<script>
+	var gallery = new Gallery({ container: document.body, panes: 5 });
+
+	// Set ids and some content
+	gallery.index(0).id('one').content('<div>Index 0</div>');
+	gallery.index(1).id('two').content('<div>Index 1</div>');
+	gallery.index(2).id('three').content('<div>Index 2</div>');
+	gallery.index(3).id('four').content('<div>Index 3</div>');
+	gallery.index(4).id('five').content('<div>Index 4</div>');
+
+	// Get button nodes as array
+	var buttons = Array.prototype.slice.call(document.querySelectorAll('button'));
+
+	// Sets button events
+	buttons.forEach(function(button) {
+		button.addEventListener('click', function(event, el) {
+			event.preventDefault();
+			event.stopPropagation();
+			gallery.id(this.getAttribute('data-id')).show();
+		});
+	});
+
+	// Set body event
+	document.body.addEventListener('click', function(event) {
+		gallery.next().show();
+	});
+</script>
+</body>
+</html>
